@@ -1,0 +1,41 @@
+import numpy as np # type: ignore
+import matplotlib.pyplot as plt
+
+def vehicle_registration_simulation(initial_vehicles, growth_rate, years):
+    """
+    Simulate annual increase in registered vehicles (exponential growth)
+    """
+    vehicles = [initial_vehicles]
+    
+    for t in range(1, years):
+        new_count = vehicles[-1] * (1 + growth_rate)
+        vehicles.append(new_count)
+    
+    return vehicles
+
+## Parameters
+initial_vehicles = 50000   # starting registered vehicles
+growth_rate = 0.07         # 7% annual growth
+years = 20                 # simulate for 20 years
+
+results = vehicle_registration_simulation(initial_vehicles, growth_rate, years)
+
+## Plot results
+plt.figure(figsize=(10, 6))
+plt.plot(range(years), results, 'bo-', linewidth=2, markersize=6, label="Registered Vehicles")
+
+# Annotate some key years
+for year in [0, 5, 10, 15, 19]:
+    plt.text(year, results[year]*1.02, f"{int(results[year]):,}", 
+             ha='center', fontsize=9, color='darkred')
+
+plt.xlabel('Years')
+plt.ylabel('Number of Registered Vehicles')
+plt.title('Registered Vehicles Growth Simulation')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+print(f"Initial registered vehicles: {initial_vehicles:,}")
+print(f"Final registered vehicles: {int(results[-1]):,}")
+print(f"Growth factor: {results[-1]/initial_vehicles:.2f}x")
